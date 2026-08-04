@@ -9,6 +9,7 @@
 import { Events, type EventsMapping } from './events'
 import Modules from './modules'
 import Tokens from './tokens'
+import { Service } from '.'
 
 interface obj {
   // biome-ignore lint: *
@@ -52,8 +53,7 @@ function mountObject<T, C extends Context>(value: T, ctx: C): T {
   if (!isExistsContext(value)) return value
   return new Proxy(value, {
     get(target, prop, receiver) {
-      if (prop === 'ctx') return ctx
-      return Reflect.get(target, prop, receiver)
+      return prop !== 'ctx' || (target instanceof Service && !ctx.identity) ? Reflect.get(target, prop, receiver) : ctx
     }
   })
 }
@@ -262,10 +262,7 @@ export class Context<E = EventsMapping> implements ContextOrigin {
         succeed = false
         continue
       }
-      this[key as ContextKeys] = mountObject(
-        typeof instance[key] === 'function' ? instance[key]?.bind(instance) : instance[key],
-        this
-      )
+      this[key as ContextKeys] = mountObject(typeof instance[key] === 'function' ? instance[key]?.bind(instance) : instance[key], this)
       this[Tokens.tracker].set(key, prop)
     }
     return succeed
@@ -280,8 +277,7 @@ export class Context<E = EventsMapping> implements ContextOrigin {
   public extends(identity?: IdentityType): this
   public extends(_: Exclude<unknown, IdentityType>, identity?: IdentityType): this
   public extends(_: unknown, arg2?: IdentityType) {
-    const identity =
-      (typeof _ === 'string' || typeof _ === 'symbol' ? _ : arg2) ?? this.identity ?? DEFAULT_EXTENDS_NAME
+    const identity = (typeof _ === 'string' || typeof _ === 'symbol' ? _ : arg2) ?? this.identity ?? DEFAULT_EXTENDS_NAME
     const childCtx = new Context(this, identity) as this
     this[Tokens.record].add(childCtx)
     return childCtx
@@ -297,9 +293,7 @@ export class Context<E = EventsMapping> implements ContextOrigin {
   public find(identity: IdentityType, mode: 'up' | 'down' | 'both' = 'both'): Context | undefined {
     if (identity === this.identity) return this
     if (mode === 'down' || mode === 'both') {
-      const result = Array.from(this[Tokens.record]).find(
-        (ctx) => identity === ctx.identity || ctx.find(identity, 'down')
-      )
+      const result = Array.from(this[Tokens.record]).find((ctx) => identity === ctx.identity || ctx.find(identity, 'down'))
       if (result) return result
     }
     if ((mode === 'up' || mode === 'both') && this.parent) {

@@ -19,19 +19,19 @@ export interface EventsMapping {
 
 /** Utility type to extract only the event callback functions from a type */
 export type EventsList<T = EventsMapping> = {
-  // biome-ignore lint:
+  // biome-ignore lint: *
   [K in keyof T]: T[K] extends (...args: any) => any
-    ? Parameters<T[K]>[1] extends never | undefined | null
-      ? Parameters<T[K]>[0]
-      : [...Parameters<T[K]>]
-    : never
+  ? Parameters<T[K]>[1] extends never | undefined | null
+  ? Parameters<T[K]>[0]
+  : [...Parameters<T[K]>]
+  : never
 }
 
 type EventsTool<T> = {
   [K in keyof T]: T[K] extends EventsCallback ? T[K] : never
 }
 
-// biome-ignore lint:
+// biome-ignore lint: *
 type EventsCallback = (...args: any) => unknown
 // type EventsBeforeKeys<T> = T extends `before_${infer U}` ? U : never;
 

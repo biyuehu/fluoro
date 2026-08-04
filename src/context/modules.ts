@@ -1,10 +1,10 @@
 import type { Context } from './context'
-import { Tokens } from './tokens'
 import { Service } from './service'
+import { Tokens } from './tokens'
 
-// biome-ignore lint:
+// biome-ignore lint: *
 type ModuleInstanceClass = new (ctx: any, config: ModuleConfig) => unknown
-// biome-ignore lint:
+// biome-ignore lint: *
 type ModuleInstanceFunction = (ctx: any, config: ModuleConfig) => void
 
 /** Represents the structure of a module export */
@@ -23,8 +23,8 @@ export interface ModuleExport {
   config?: ModuleConfig
 }
 
-// biome-ignore lint:
-export interface ModuleConfig {}
+// biome-ignore lint: *
+export interface ModuleConfig { }
 
 declare module './events' {
   interface EventsMapping {

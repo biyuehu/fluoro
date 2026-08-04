@@ -5,12 +5,13 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-08-16 10:53:09
  */
-import Tokens from './tokens'
+
 import { Events, type EventsMapping } from './events'
 import Modules from './modules'
+import Tokens from './tokens'
 
 interface obj {
-  // biome-ignore lint:
+  // biome-ignore lint: *
   [propName: string | number | symbol]: any
 }
 
@@ -152,7 +153,7 @@ export interface Context<E = EventsMapping> {
 /**
  * Context.
  */
-// biome-ignore lint:
+// biome-ignore lint: *
 export class Context<E = EventsMapping> implements ContextOrigin {
   /** Context container */
   public readonly [Tokens.container]: Map<CommonKeys, obj> = new Map()

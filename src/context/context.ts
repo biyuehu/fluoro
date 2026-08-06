@@ -6,10 +6,10 @@
  * @LastEditTime: 2024-08-16 10:53:09
  */
 
+import { Service } from '.'
 import { Events, type EventsMapping } from './events'
 import Modules from './modules'
 import Tokens from './tokens'
-import { Service } from '.'
 
 interface obj {
   // biome-ignore lint: *

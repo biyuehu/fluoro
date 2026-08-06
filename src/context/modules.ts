@@ -24,7 +24,7 @@ export interface ModuleExport {
 }
 
 // biome-ignore lint: *
-export interface ModuleConfig { }
+export interface ModuleConfig {}
 
 declare module './events' {
   interface EventsMapping {

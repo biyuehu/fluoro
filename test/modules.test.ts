@@ -1,4 +1,4 @@
-import { Modules, type ModuleExport, Context, Service } from '../src'
+import { Context, type ModuleExport, Modules, Service } from '../src'
 
 declare module '../src' {
   interface Context {

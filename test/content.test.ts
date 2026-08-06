@@ -1,4 +1,4 @@
-import { Context, Tokens, Events, Modules } from '../src/'
+import { Context, Events, Modules, Tokens } from '../src/'
 
 declare module '../src/' {
   interface Context {

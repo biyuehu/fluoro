@@ -21,10 +21,10 @@ export interface EventsMapping {
 export type EventsList<T = EventsMapping> = {
   // biome-ignore lint: *
   [K in keyof T]: T[K] extends (...args: any) => any
-  ? Parameters<T[K]>[1] extends never | undefined | null
-  ? Parameters<T[K]>[0]
-  : [...Parameters<T[K]>]
-  : never
+    ? Parameters<T[K]>[1] extends never | undefined | null
+      ? Parameters<T[K]>[0]
+      : [...Parameters<T[K]>]
+    : never
 }
 
 type EventsTool<T> = {

@@ -1,4 +1,4 @@
-import { Context } from './context';
+import { Context } from './context'
 
-export * from './context';
-export default Context;
+export * from './context'
+export default Context
